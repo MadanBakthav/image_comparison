@@ -14,6 +14,7 @@ import concurrent.futures
 
 
 def iter_over_cameras(list_cameras, resizing_shapes):
+    """ iterates the images from different camera for creating combination dictionary"""
 
     camera_images = list_cameras
     shapes = resizing_shapes
@@ -34,6 +35,7 @@ def iter_over_cameras(list_cameras, resizing_shapes):
 
 
 def check_for_similarity(combination_dict,H,W):
+    """ Checks for similarity of the images from combination dictionary"""
     delete_list = []
     while combination_dict != {}:
 
@@ -82,6 +84,7 @@ if __name__ == '__main__':
     images = glob.glob(path + "/*.png")
     results = []
     print(len(images))
+    # Sorting the images based on its source
     camera_10 = []
     camera_20 = []
     camera_21 = []
@@ -102,11 +105,9 @@ if __name__ == '__main__':
 
     list_cameras = [camera_10, camera_20, camera_21, camera_23]
     resizing_shapes = [(640, 480, 3), (1920, 1080, 3), (1100, 619, 3), (1920, 1080, 3)]
-
+    # Using Concurrent for parallel computation
     with concurrent.futures.ThreadPoolExecutor() as executor:
         delete_data = (list(executor.map(iter_over_cameras, list_cameras, resizing_shapes)))
-
-    # delete_data.append(outer_function(input_list))
 
     end_time = time.perf_counter()
 

@@ -14,6 +14,8 @@ import os
 
 
 def check_for_similarity(combination_dict):
+    """ This functions takes dictionary as input. It runs combinations to check for similarity. Returns the similar image path"""
+
     delete_list = []
     while combination_dict != {}:
 
@@ -59,6 +61,7 @@ if __name__ == '__main__':
     start_time = time.perf_counter()
 
     path = args.input_path  #".\\dataset\\"
+    # Reading images
     images = glob.glob(path + "/*.png")
     results = []
     print(len(images))
@@ -68,6 +71,7 @@ if __name__ == '__main__':
     camera_23 = []
     delete_data = []
     delete_list = []
+    # Sorting the images based on its source.
     for image in images:
         if "c10" in image:
             camera_10.append(image)
@@ -83,6 +87,7 @@ if __name__ == '__main__':
     list_cameras = [camera_10, camera_20, camera_21, camera_23]
     resizing_shapes = [(640, 480, 3), (1920, 1080, 3), (1100, 619, 3), (1920, 1080, 3)]
 
+    # Preparing the combinations
     for camera_images, shapes in zip(list_cameras, resizing_shapes):
 
         combination_dict = {}
@@ -96,8 +101,6 @@ if __name__ == '__main__':
             else:
                 combination_dict[image_1] = [image_2]
 
-        # with concurrent.futures.ThreadPoolExecutor() as executor:
-        #     delete_data.append(list(executor.submit(check_for_similarity, combination_dict)))
 
         delete_data.append(check_for_similarity(combination_dict))
 
